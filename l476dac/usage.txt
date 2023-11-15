@@ -1,0 +1,9 @@
+'V103XXX' : sets the intensity level of all channels to 3
+  ^
+  if this is not zero, this is for all channels
+
+'V002004': sets the intensity level for channel number 4 to 2
+  ^^^^
+  this value determines the intensity level (ranges 0-4)
+      ^^
+      this value is the channel index
