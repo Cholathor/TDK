@@ -954,7 +954,8 @@ void parseUserInput()
 		case 's':
 
 
-			uint8_t channelOrderIndex = Rx_data[1];
+			;
+            uint8_t channelOrderIndex = Rx_data[1];
 
 			uint8_t channelOrderIntensity = Rx_data[2];
 

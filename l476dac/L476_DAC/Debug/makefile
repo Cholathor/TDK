@@ -60,8 +60,8 @@ all: main-build
 main-build: L476_DAC.elf secondary-outputs
 
 # Tool invocations
-L476_DAC.elf L476_DAC.map: $(OBJS) $(USER_OBJS) C:\Users\KMarton\Documents\stm32\l476dac\L476_DAC\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "L476_DAC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\KMarton\Documents\stm32\l476dac\L476_DAC\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="L476_DAC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+L476_DAC.elf L476_DAC.map: $(OBJS) $(USER_OBJS) C:\Users\klenc\Documents\EEL\TDK\l476dac\L476_DAC\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "L476_DAC.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\klenc\Documents\EEL\TDK\l476dac\L476_DAC\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="L476_DAC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
