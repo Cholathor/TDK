@@ -109,6 +109,8 @@ class Application:
 
         readButton = [sg.Button("Read serial", key="READSERIAL")]
 
+        comportDisplay = [sg.Text(expand_x=True), sg.Text('not connected',key='COMPORTDISPLAY')]
+
         parameter_layout = [
             waveformImage,
 
@@ -126,7 +128,7 @@ class Application:
 
             stimulateButton + continuousStimulationCheckmark + connectButton,
 
-            stopButton + readButton,
+            stopButton + comportDisplay + readButton,
         ]
 
         command_layout = [[sg.Multiline(key="COMMANDLINE", expand_x=True, expand_y=True)],
@@ -142,7 +144,7 @@ class Application:
 
     def popupGetComPorts(self):
         ports = list(list_ports.comports())
-        ports_dict = {ports[i].description: ports[i].name for i in range(len(ports))}
+        ports_dict = {ports[i].description: ports[i].device for i in range(len(ports))}
 
         ports = [p.description for p in ports]
 
@@ -156,7 +158,7 @@ class Application:
         window = sg.Window('Choose COM port', layout, use_default_focus=False, finalize=True, modal=True, size=(max_len * 10, len(ports)*50 + 50))
         event, values = window.read()
         window.close()
-        return ports_dict[values['COMLIST'][0]]
+        return ports_dict[values['COMLIST'][0]], values['COMLIST'][0]
 
 
 
@@ -204,11 +206,12 @@ class Application:
 
             case 'CONNECT':
                 try:
-                    port = self.popupGetComPorts()
+                    port, description = self.popupGetComPorts()
                 except:
                     print('Could not open port')
                     return
-                self.serialSender.connect(port)
+                if self.serialSender.connect(port) is not None:
+                    window["COMPORTDISPLAY"].update(description)
 
 
             case 'DEFAULT':
@@ -273,6 +276,14 @@ class Application:
     def main(self):
         s = sg.theme('default1')
         window = self.make_window(s)
+
+        ports = list(list_ports.comports())
+
+        nucleo = [port for port in ports if 'STMicroelectronics STLink Virtual COM Port' in port.description][0]
+
+        if nucleo is not None and self.serialSender.connect(nucleo.device) is not None:
+            window["COMPORTDISPLAY"].update(nucleo.description)
+
 
         window.TKroot.bind('<Button>', change_focus)
 

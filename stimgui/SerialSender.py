@@ -27,10 +27,11 @@ class SerialSender:
     def connect(self, port):
         try:
             self.ser.close()
-            self.ser = serial.Serial(port, baudrate=115200, timeout=2)
-            sg.popup("Connected", keep_on_top=True, no_titlebar=True, grab_anywhere=True)
+            self.ser = serial.Serial(port, baudrate=115200, timeout=0.2)
+            return port
         except serial.SerialException:
             sg.popup("No device connected", keep_on_top=True, no_titlebar=True, grab_anywhere=True)
+            return None
 
 
     # parses command based on programCode, does not pad the command to be RX_SIZE in length
